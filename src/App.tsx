@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import {Footer} from "./Footer";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,6 +28,7 @@ function App() {
           Learn React 18?
         </a>
       </header>
+      <Footer />
     </div>
   );
 }
