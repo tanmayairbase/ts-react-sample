@@ -20,4 +20,5 @@ jobs:
       - name: Check for changes
         id: checkForChanges
         run: |
-          git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '@ts-nocheck' | grep -c '^+' && exit 1 || echo 'Awesome!'
+          git fetch origin master
+          git diff origin/master..HEAD | grep '@ts-nocheck' | grep -c '^+' && exit 1 || echo 'Awesome!'
