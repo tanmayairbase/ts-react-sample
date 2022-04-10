@@ -4,7 +4,8 @@ import "./App.css";
 import {Footer} from "./Footer";
 
 function App() {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+  console.log("app init")
 
   useEffect(() => {
     setLoading(true);
