@@ -23,4 +23,4 @@ jobs:
       - name: Check for changes
         id: checkForChanges
         run: |
-          echo "::set-output name=grepValue::$( git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -c '^zebra' )"
+          git diff ${{ github.event.before }} ${{ github.sha }} | grep '@ts-nocheck' | grep -c '^+' && echo 'Booo!' >&2 || echo 'Awesome!'
