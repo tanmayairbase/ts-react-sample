@@ -1,7 +1,7 @@
 export const Footer = () => {
   return (
     <footer>
-      Copyright of nobody (C) 2001
+      Copyright of nobody (C) 2001.
     </footer>
   )
 }
