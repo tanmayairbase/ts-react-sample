@@ -21,4 +21,5 @@ jobs:
           git diff origin/master..HEAD > PR_DIFF
           cat PR_DIFF | grep '@ts-nocheck' > NO_CHECK_GREP_RESULTS
           cat NO_CHECK_GREP_RESULTS
-          cat NO_CHECK_GREP_RESULTS | grep -c '^+' && echo 'what!!!' || echo 'Awesome!'
+          cat NO_CHECK_GREP_RESULTS | grep -c '^+' > COUNT
+          if [ COUNT > 0 ] && echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; || echo 'Good to go! :)' 
