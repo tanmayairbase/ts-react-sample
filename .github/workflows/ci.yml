@@ -3,22 +3,46 @@ name: CI
 on:
   pull_request
 
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    name: Test changed-files
+#    steps:
+#      # Checkout the source code
+#      - name: 'Checkout source code'
+#        uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Check for changes
+#        id: checkForChanges
+#        run: |
+#          git fetch origin master
+#          TS_NOCHECK_GREP_RESULTS=$(git diff origin/master..HEAD | grep '@ts-nocheck')
+#          COUNT=$(echo "$TS_NOCHECK_GREP_RESULTS" | grep -c '^+')
+#          if [ "$COUNT" -gt 0 ]; then echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; else echo 'Good to go! :)'; fi
+
 jobs:
-  build:
+  changedfiles:
     runs-on: ubuntu-latest
-    name: Test changed-files
+    # Map a step output to a job output
+    outputs:
+      all: ${{ steps.changes.outputs.all}}
     steps:
-      # Checkout the source code
-      - name: 'Checkout source code'
+      # Make sure we have some code to diff.
+      - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Check for changes
-        id: checkForChanges
+      - name: Get changed files
+        id: changes
+        # Set outputs using the command.
         run: |
-          git fetch origin master
-          TS_NOCHECK_GREP_RESULTS=$(git diff origin/master..HEAD | grep '@ts-nocheck')
-          COUNT=$(echo "$TS_NOCHECK_GREP_RESULTS" | grep -c '^+')
-          if [ "$COUNT" -gt 0 ]; then echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; else echo 'Good to go! :)'; fi
-
+          echo "::set-output name=all::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)"
+  lint:
+    runs-on: ubuntu-latest
+    # require the first job to have ran
+    needs: changedfiles
+    # only run there are changed files
+    if: ${{needs.changedfiles.outputs.ts}}
+    steps:
+      - name: echo changed files
+        run: echo ${{needs.changedfiles.outputs.ts}}
