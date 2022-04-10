@@ -1,9 +1,7 @@
 name: CI
 
 on:
-  pull_request:
-    branches:
-      - master
+  pull_request
 
 jobs:
   build:
@@ -23,4 +21,5 @@ jobs:
           git diff origin/master..HEAD > PR_DIFF
           cat PR_DIFF | grep '@ts-nocheck' > NO_CHECK_GREP_RESULTS
           cat NO_CHECK_GREP_RESULTS
-          cat NO_CHECK_GREP_RESULTS | grep -c '^+' && exit 1 || echo 'Awesome!'
+          cat NO_CHECK_GREP_RESULTS | grep -c '^+' > COUNT
+          if [ COUNT > 0 ]; then echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; else echo 'Good to go! :)'; fi
