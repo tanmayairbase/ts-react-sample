@@ -17,33 +17,6 @@ jobs:
       - name: Check for changes
         id: checkForChanges
         run: |
-          TS_NOCHECK_GREP_RESULTS=$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '@ts-nocheck')
+          TS_NOCHECK_GREP_RESULTS=$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '@ts-nowcheck')
           COUNT=$(echo "$TS_NOCHECK_GREP_RESULTS" | grep -c '^+')
           if [ "$COUNT" -gt 0 ]; then echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; else echo 'Good to go! :)'; fi
-
-#jobs:
-#  changedfiles:
-#    runs-on: ubuntu-latest
-#    # Map a step output to a job output
-#    outputs:
-#      all: ${{ steps.changes.outputs.all}}
-#    steps:
-#      # Make sure we have some code to diff.
-#      - name: Checkout repository
-#        uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0
-#      - name: Get changed files
-#        id: changes
-#        # Set outputs using the command.
-#        run: |
-#          echo "::set-output name=all::$()"
-#  lint:
-#    runs-on: ubuntu-latest
-#    # require the first job to have ran
-#    needs: changedfiles
-#    # only run there are changed files
-#    if: ${{needs.changedfiles.outputs.all}}
-#    steps:
-#      - name: echo changed files
-#        run: echo ${{needs.changedfiles.outputs.all}}
