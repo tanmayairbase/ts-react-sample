@@ -21,4 +21,4 @@ jobs:
           git diff origin/master..HEAD | grep '@ts-nocheck' > TS_NOCHECK_GREP_RESULTS
           cat TS_NOCHECK_GREP_RESULTS
           cat TS_NOCHECK_GREP_RESULTS | grep -c '^+' > COUNT
-          if [ COUNT > 0 ]; then echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; else echo 'Good to go! :)'; fi
+          if [ "$COUNT" -gt 0 ]; then echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; else echo 'Good to go! :)'; fi
