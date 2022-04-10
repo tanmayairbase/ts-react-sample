@@ -22,4 +22,4 @@ jobs:
           cat PR_DIFF | grep '@ts-nocheck' > NO_CHECK_GREP_RESULTS
           cat NO_CHECK_GREP_RESULTS
           cat NO_CHECK_GREP_RESULTS | grep -c '^+' > COUNT
-          if [ COUNT > 0 ]; then echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; else echo 'Good to go! :)' 
+          if [ COUNT > 0 ]; then echo "Found non-zero '@ts-nocheck' lines! :("; exit 1; else echo 'Good to go! :)'; fi
