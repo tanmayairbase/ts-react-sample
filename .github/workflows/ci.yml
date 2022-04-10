@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Test changed-files
     steps:
+      # Checkout the source code
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Check for changes
         id: checkForChanges
         run: |
