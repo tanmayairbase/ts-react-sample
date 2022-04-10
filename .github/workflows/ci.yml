@@ -1,9 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -23,4 +20,4 @@ jobs:
       - name: Check for changes
         id: checkForChanges
         run: |
-          git diff ${{ github.event.before }} ${{ github.sha }} | grep '@ts-nocheck' | grep -c '^+' && echo 'Booo!' >&2 || echo 'Awesome!'
+          git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep '@ts-nocheck' | grep -c '^+' && echo 'Booo!' >&2 || echo 'Awesome!'
