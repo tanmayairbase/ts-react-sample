@@ -10,15 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Test changed-files
     steps:
-      # Checkout the source code
-      - name: 'Checkout source code'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      # Check for changes
       - name: Check for changes
         id: checkForChanges
         run: |
           git fetch origin master
-          git diff origin/master..HEAD | grep '@ts-nocheck' | grep -c '^+' && exit 1 || echo 'Awesome!'
+          git diff origin/master..HEAD > PR_DIFF
+          cat PR_DIFF | grep '@ts-nocheck' > NO_CHECK_GREP_RESULTS
+          cat NO_CHECK_GREP_RESULTS
+          cat NO_CHECK_GREP_RESULTS | grep -c '^+' && exit 1 || echo 'Awesome!'
