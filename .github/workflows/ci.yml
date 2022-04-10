@@ -13,16 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Test changed-files
     steps:
-      - uses: actions/checkout@v3
+      # Checkout the source code
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+          fetch-depth: 0
 
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v18.7
-
-      - name: List all changed files
+      # Check for changes
+      - name: Check for changes
+        id: checkForChanges
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
+          echo "::set-output name=grepValue::$( git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -c '^zebra' )"

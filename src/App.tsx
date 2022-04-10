@@ -7,6 +7,7 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
+    console.log('zebra')
   }, []);
 
   return (
