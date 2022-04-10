@@ -1,3 +1,4 @@
+// @ts-no
 export const Footer = () => {
   return (
     <footer>
